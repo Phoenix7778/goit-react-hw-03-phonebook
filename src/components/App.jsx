@@ -42,6 +42,19 @@ export class App extends Component {
     this.setState({ filter: value });
   };
 
+  componentDidMount() {
+    const SaveToLocalStorage = localStorage.getItem('contacts');
+    if (SaveToLocalStorage) {
+      this.setState({ contacts: JSON.parse(SaveToLocalStorage) });
+    }
+  }
+
+  componentDidUpdate(p, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   render() {
     const { contacts, filter } = this.state;
     const filtredContactsOnLowerCase = filter.toLocaleLowerCase();
